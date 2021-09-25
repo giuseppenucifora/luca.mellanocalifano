@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+    app:
+        container_name: test_php
+        image: webdevops/php-nginx-dev:7.4
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            WEB_ALIAS_DOMAIN: test.local
+            WEB_DOCUMENT_ROOT: /app/test/public
+            LOG_STDOUT: /logs/stdout.log
+            LOG_STDERR: /logs/stderr.log
+            PHP_MEMORY_LIMIT: -1
+            PHP_DISPLAY_ERRORS : 1
+            PHP_MAX_EXECUTION_TIME : -1
+            TERM: xterm-256color
+        depends_on:
+            - database
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/app
+            - ./logs:/logs
+
+
+    database:
+        container_name: test_database
+        image: mysql:5.7.28
+        volumes:
+            - ./.database:/var/lib/mysql
+        ports:
+            - "3306:3306"
+            - "33060:33060"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+            MYSQL_USER: test
+            MYSQL_PASSWORD: password
+
+    phpmyadmin:
+        container_name: test_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: database
+        ports:
+            - "8080:80"
+        links:
+            - database
+
+    memcached:
+        container_name: test_memcached
+        image: memcached
+        ports:
+            - "11211:11211"

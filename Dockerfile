@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx-dev:7.4
+FROM webdevops/php-ng.inx-dev:8.1
 
 # TimeZone
 RUN rm /etc/localtime

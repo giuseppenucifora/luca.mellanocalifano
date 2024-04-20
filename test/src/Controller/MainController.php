@@ -21,7 +21,7 @@ class MainController extends AbstractController
      */
     public function index(Request $request){
 
-        return $this->render('test/test.htm.twig');
+        return $this->render('test/test.html.twig');
     }
 
     /**
@@ -43,9 +43,9 @@ class MainController extends AbstractController
         $contact->setMessage($message);
 
         if($contactService->registerContact($contact)){
-            return $this->redirect($this->generateUrl('testo_index'));
+            return $this->redirect($this->generateUrl('test_index'));
         }
 
-        return $this->render('test/errore.html.twig');
+        return $this->render('test/error.html.twig');
     }
 }

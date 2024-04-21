@@ -1,3 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+contact_list:
+     path: /contacts
+     controller: App\Controller\ContactController::listContacts
